@@ -34,6 +34,48 @@ class LinkedList {
     this.listSize++;
   }
 
+  pop() {
+    if (!this.head) return;
+
+    let currentNode = this.head;
+    let previousNode;
+
+    if (this.listSize === 1) {
+      this.head = null;
+    } else {
+      while (currentNode.nextNode) {
+        previousNode = currentNode;
+        currentNode = currentNode.nextNode;
+      }
+      previousNode.nextNode = null;
+    }
+    this.listSize--;
+  }
+
+  contains(value) {
+    let currentNode = this.head;
+    while (currentNode) {
+      if (currentNode.data === value) {
+        return true;
+      }
+      currentNode = currentNode.nextNode;
+    }
+    return false;
+  }
+
+  find(value) {
+    let index = 0;
+    let currentNode = this.head;
+    while (currentNode) {
+      if (currentNode.data === value) {
+        return index;
+      }
+      currentNode = currentNode.nextNode;
+      index++;
+    }
+    return null;
+  }
+
   //  returns the total number of nodes in the list
   printSize() {
     console.log(this.listSize);
@@ -82,5 +124,10 @@ ll.append(30);
 // ll.printSize();
 // ll.printHead();
 // ll.printTail();
-ll.printAt(2); // returns node with value 30
+// ll.printAt(2); // returns node with value 30
+// ll.pop();
+// ll.pop();
+// ll.pop();
 ll.toString();
+ll.contains(20);
+console.log(ll.find(30));
