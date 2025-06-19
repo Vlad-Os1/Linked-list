@@ -5,7 +5,7 @@ class Node {
   }
 }
 
-class LinkedList {
+export default class LinkedList {
   constructor() {
     this.head = null;
     this.listSize = 0;
@@ -34,6 +34,47 @@ class LinkedList {
     this.listSize++;
   }
 
+  // inserts node at the specific index
+  insertAt(value, index) {
+    let node = new Node(value);
+    let currentNode = this.head;
+    let previousNode;
+    if (index == 0) {
+      this.prepend(value);
+      return;
+    }
+    if (index == this.listSize) {
+      this.append(value);
+      return;
+    }
+    if (index < 0 || index > this.listSize) return;
+    for (let i = 0; i < index; i++) {
+      previousNode = currentNode;
+      currentNode = currentNode.nextNode;
+    }
+    previousNode.nextNode = node;
+    node.nextNode = currentNode;
+    this.listSize++;
+  }
+
+  // removes a node at the specific index
+  removeAt(index) {
+    let currentNode = this.head;
+    let previousNode;
+    if (index < 0 || index >= this.listSize) return;
+    if (index == 0) {
+      this.head = this.head.nextNode;
+    } else {
+      for (let i = 0; i < index; i++) {
+        previousNode = currentNode;
+        currentNode = currentNode.nextNode;
+      }
+      previousNode.nextNode = currentNode.nextNode;
+    }
+    this.listSize--;
+  }
+
+  // removes the last node in the list
   pop() {
     if (!this.head) return;
 
@@ -52,6 +93,7 @@ class LinkedList {
     this.listSize--;
   }
 
+  // searches for input value and returns true/false
   contains(value) {
     let currentNode = this.head;
     while (currentNode) {
@@ -63,6 +105,7 @@ class LinkedList {
     return false;
   }
 
+  // searches for input value and returns its index
   find(value) {
     let index = 0;
     let currentNode = this.head;
@@ -89,6 +132,10 @@ class LinkedList {
   // returns the last node in the list
   printTail() {
     let currentNode = this.head;
+    if (!this.head) {
+      console.log('The list is empty');
+      return;
+    }
     while (currentNode.nextNode) {
       currentNode = currentNode.nextNode;
     }
@@ -98,7 +145,11 @@ class LinkedList {
   // return the Node at specific index like in array
   printAt(index) {
     let currentNode = this.head;
-    if (index < 0 || index > this.listSize) return;
+    if (!this.head) {
+      console.log('The list is empty');
+      return;
+    }
+    if (index < 0 || index >= this.listSize) return;
     for (let i = 0; i < index; i++) {
       currentNode = currentNode.nextNode;
     }
@@ -116,18 +167,3 @@ class LinkedList {
     console.log(`${logData} null`);
   }
 }
-
-const ll = new LinkedList();
-ll.prepend(10);
-ll.append(20);
-ll.append(30);
-// ll.printSize();
-// ll.printHead();
-// ll.printTail();
-// ll.printAt(2); // returns node with value 30
-// ll.pop();
-// ll.pop();
-// ll.pop();
-ll.toString();
-ll.contains(20);
-console.log(ll.find(30));
